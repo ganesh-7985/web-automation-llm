@@ -1,0 +1,21 @@
+{
+  "name": "web-automation-llm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "postinstall": "npx playwright install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node src/index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.6.0",
+    "dotenv": "^17.2.1",
+    "groq-sdk": "^0.30.0",
+    "playwright": "^1.54.2",
+    "yargs": "^18.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
