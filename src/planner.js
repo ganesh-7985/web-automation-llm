@@ -6,10 +6,11 @@ import { log } from "./utils/logger.js";
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 const MODEL = process.env.GROQ_MODEL || "llama-3.1-70b-versatile";
 
-export async function llmPlan({ goal, site = "demoblaze" }) {
+export async function llmPlan({ goal, site }) {
   const system =
     "You are a concise planning assistant for browser automation. " +
-    "Output STRICT JSON with shape: {\"goal\": string, \"steps\": string[]} " +
+    "Output STRICT JSON {\"goal\": string, \"steps\": string[]} " +
+    "Each step must be one of: 'go:URL', 'click:SELECTOR', 'type:SELECTOR|TEXT'. " +
     "Return JSON only. No Markdown. No code fences.";
 
   const user = JSON.stringify({
@@ -17,14 +18,11 @@ export async function llmPlan({ goal, site = "demoblaze" }) {
     goal,
     examples: [
       {
-        goal: "find laptop under $800 with 8GB RAM and add to cart",
+        goal: "search demo on example.com",
         steps: [
-          "go:https://demoblaze.com",
-          "click:category Laptops",
-          "collect:list products {name, price, detailsLink}",
-          "choose:best by budget<=800 and prefer '8GB' in name/specs",
-          "go:best.detailsLink",
-          "click:Add to cart"
+          "go:https://example.com",
+          "type:#search|demo",
+          "click:#submit"
         ]
       }
     ]

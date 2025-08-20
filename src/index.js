@@ -4,6 +4,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { launchBrowser } from "./executor/browser.js";
 import { llmPlan, llmChoose } from "./planner.js";
+import { executePlan } from "./executor/plan.js";
 import { runDemoblazeFlow } from "./executor/demoblaze.js";
 import { log } from "./utils/logger.js";
 
@@ -15,8 +16,8 @@ const argv = yargs(hideBin(process.argv))
   })
   .option("site", {
     type: "string",
-    default: "demoblaze",
-    describe: "Target site adapter"
+    default: "generic",
+    describe: "Target site adapter (generic|demoblaze)"
   })
   .option("headed", {
     type: "boolean",
@@ -44,7 +45,7 @@ async function main() {
   const { browser, page } = await launchBrowser({ headed });
   try {
     // 1) Ask Groq to produce a plan (logged for transparency)
-    await llmPlan({ goal, site });
+    const plan = await llmPlan({ goal, site });
 
     // 2) Execute site flow (Groq is used again to choose the product)
     if (site === "demoblaze") {
@@ -55,7 +56,7 @@ async function main() {
         headed
       });
     } else {
-      throw new Error(`Unknown site adapter: ${site}`);
+        await executePlan({ page, steps: plan.steps });
     }
 
     log.success("Done.");
