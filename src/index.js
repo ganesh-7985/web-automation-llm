@@ -6,6 +6,7 @@ import { launchBrowser } from "./executor/browser.js";
 import { llmPlan, llmChoose } from "./planner.js";
 import { executePlan } from "./executor/plan.js";
 import { runDemoblazeFlow } from "./executor/demoblaze.js";
+import { runAmazonFlow } from "./executor/amazon.js";
 import { log } from "./utils/logger.js";
 
 const argv = yargs(hideBin(process.argv))
@@ -17,7 +18,7 @@ const argv = yargs(hideBin(process.argv))
   .option("site", {
     type: "string",
     default: "generic",
-    describe: "Target site adapter (generic|demoblaze)"
+    describe: "Target site adapter (generic|demoblaze|amazon)"
   })
   .option("headed", {
     type: "boolean",
@@ -44,10 +45,11 @@ async function main() {
 
   const { browser, page } = await launchBrowser({ headed });
   try {
-    // 1) Ask Groq to produce a plan (logged for transparency)
-    const plan = await llmPlan({ goal, site });
+    let plan;
+    if (site === "generic") {
+      plan = await llmPlan({ goal, site });
+    }
 
-    // 2) Execute site flow (Groq is used again to choose the product)
     if (site === "demoblaze") {
       await runDemoblazeFlow({
         page,
@@ -55,8 +57,14 @@ async function main() {
         llmChooseFn: llmChoose,
         headed
       });
+    }else if (site === "amazon") {
+        await runAmazonFlow({
+          page,
+          goal,
+          llmChooseFn: llmChoose
+        });
     } else {
-        await executePlan({ page, steps: plan.steps });
+        await executePlan({ page, steps: plan?.steps });
     }
 
     log.success("Done.");
