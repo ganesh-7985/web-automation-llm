@@ -10,8 +10,8 @@ import { log } from "../utils/logger.js";
 export async function executePlan({ page, steps }) {
   for (const raw of steps || []) {
     if (typeof raw !== "string") continue;
-    const [action, rest] = raw.split(":", 2);
-    const arg = (rest || "").trim();
+    const [action, ...rest] = raw.split(":");
+    const arg = rest.join(":").trim();
     log.step(`Executing: ${raw}`);
     try {
       if (action === "go") {
