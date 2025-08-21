@@ -1,5 +1,6 @@
 {
   "name": "web-automation-llm",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {},

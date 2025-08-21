@@ -4,7 +4,7 @@ import { coerceJSON } from "./utils/parse.js";
 import { log } from "./utils/logger.js";
 
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const MODEL = process.env.GROQ_MODEL || "llama-3.1-70b-versatile";
+const MODEL = process.env.GROQ_MODEL || "llama3-70b-8192";
 
 export async function llmPlan({ goal, site }) {
   const system =
