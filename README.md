@@ -4,7 +4,7 @@ A powerful web automation tool that uses Large Language Models (LLMs) to intelli
 
 ## 🎥 Demo
 
-https://github.com/yourusername/web-automation-llm/assets/yourusername/Screen%20Recording%202025-08-27%20at%2010.53.31%20AM.mov
+![Demo Video](Screen%20Recording%202025-08-27%20at%2010.53.31%20AM.mov)
 
 *Watch the demo above to see the tool in action!*
 
