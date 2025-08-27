@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import "dotenv/config";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -43,7 +42,7 @@ async function main() {
   log.info("Site:", site);
   log.info("Headed:", headed);
 
-  const { browser, page } = await launchBrowser({ headed });
+  const { page } = await launchBrowser({ headed });
   try {
     let plan;
     if (site === "generic") {
@@ -57,14 +56,14 @@ async function main() {
         llmChooseFn: llmChoose,
         headed
       });
-    }else if (site === "amazon") {
-        await runAmazonFlow({
-          page,
-          goal,
-          llmChooseFn: llmChoose
-        });
+    } else if (site === "amazon") {
+      await runAmazonFlow({
+        page,
+        goal,
+        llmChooseFn: llmChoose
+      });
     } else {
-        await executePlan({ page, steps: plan?.steps });
+      await executePlan({ page, steps: plan?.steps });
     }
 
     log.success("Done.");
