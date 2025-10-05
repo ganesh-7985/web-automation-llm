@@ -95,11 +95,6 @@ Create a `.env` file in the project root:
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-### Command Line Options
-
-- `--site`: Target site adapter (`generic`, `demoblaze`, `amazon`)
-- `--headed`: Run with visible browser window
-- `--help`: Show help information
 
 ##  Development
 
@@ -109,13 +104,6 @@ GROQ_API_KEY=your_groq_api_key_here
 - **Executor**: Executes plans using Playwright
 - **Site Adapters**: Specialized automation for specific websites
 - **Utilities**: Logging, parsing, and helper functions
-
-### Adding New Site Support
-
-1. Create a new executor file in `src/executor/`
-2. Add site-specific selectors in `src/selectors/`
-3. Update the main index.js to handle the new site
-4. Test with `--site yournewsite`
 
 ##  Dependencies
 
